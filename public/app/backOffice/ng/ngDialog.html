@@ -1,0 +1,7 @@
+<div style="margin-top: 50px; margin-left: 50px;">
+	<input type="file" class="fileinput-filename" ngf-select="selectedFiles($file, $invalidFiles)"
+        accept="image/*" ngf-max-height="10000" ngf-max-size="5MB">
+    <div style="margin-top: 20px;">    
+    	<button class="btn btn-primary" ng-click="uploadFile()" ng-disabled="checkUpload">Upload</button>
+    </div>	
+</div>

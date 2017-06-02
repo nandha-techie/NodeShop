@@ -1,0 +1,45 @@
+<div id="wrapper" ng-class="{'toggled' : !toggle}">
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand"><a href="#">ADMIN PANEL</a></li>
+            <li><a href="#">Dashboard</a></li>
+            <li><a ui-sref="orderlist">Orders</a></li>
+            <li><a ui-sref="orderlist">Overview</a></li>
+            <li><a ui-sref="orderlist">Events</a></li>
+            <li><a ui-sref="orderlist">About</a></li>
+            <li><a ui-sref="orderlist">Services</a></li>
+            <li><a ui-sref="orderlist">Contact</a></li>
+        </ul>
+    </div>
+    <button class="btn btn-default" ng-click="toggle = !toggle" id="menu-toggle">Menu</button>
+    <div style="text-align: center;"><a class="btn btn-primary" ui-sref="OrderAdd" >ADD</a></div>
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>SNO</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="(index, product) in productList.slice(((currentPage-1)*pageSize), ((currentPage)*pageSize))">
+                        <td>{{index + 1}}</td>
+                        <td><img ng-src="{{product.image_path}}" style="width: 30px; height: 30px;"></td>
+                        <td>{{product.price}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.category}}</td>
+                        <td>{{product.description}}</td>
+                        <td><button class="btn btn-danger" ng-click="edit(product.id)">Edit</button> <button class="btn btn-danger" ng-click="delete(product.id)">Delete</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <ul uib-pagination total-items="productList.length" items-per-page="pageSize" ng-model="currentPage" ng-change="pageChanged()"></ul>
+        </div>
+    </div>
+</div>

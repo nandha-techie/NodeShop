@@ -1,0 +1,65 @@
+<img id="loadingDiv" src="BE_assets/images/loader.gif" ng-show="loader"/>
+    <div id="wrapper" ng-class="{'toggled' : !toggle}">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand"><a href="#">ADMIN PANEL</a></li>
+                <li><a href="#">Dashboard</a></li>
+                <li><a ui-sref="orderlist">Orders</a></li>
+                <li><a href="#">Overview</a></li>
+                <li><a href="#">Events</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+        <button class="btn btn-default" ng-click="toggle = !toggle" id="menu-toggle">Menu</button>
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div style="padding: 10px 0px 0px 20px;">
+                    <form ng-submit="updateProduct(productEditData)">
+                        <div class="form-group row">
+                            <label for="example-text-input" class="col-sm-2">Categories</label>
+                            <div class="col-sm-5">
+                                <select ng-model="productEditData.category">
+                                    <option value="nature" selected>Nature</option>
+                                    <option value="watches">Watches</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-text-input" class="col-sm-2">Name</label>
+                            <div class="col-sm-5">
+                                <input type="text" ng-model="productEditData.name"></input>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-text-input" class="col-sm-2">Image</label>
+                            <div class="col-sm-7">
+                                <input type="file" class="fileinput-filename" ngf-select="selectedFiles($file, $invalidFiles)" accept="image/*" ngf-max-height="10000" ngf-max-size="5MB">
+                                <!-- <button type="button" ng-click="openModal()">Upload</button>--><span ng-show="imgShow" style="padding-top: 5px;"> <img ng-src="{{productEditData.image_path}}" style="width: 30px; height: 30px;"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-text-input" class="col-sm-2">Price</label>
+                            <div class="col-sm-5">
+                                <input type="number" ng-model="productEditData.price"></input>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-text-input" class="col-sm-2">Description</label>
+                            <div class="col-sm-5">
+                                <textarea ng-model="productEditData.description" rows="3" cols="50"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-text-input" class="col-sm-2"></label>
+                            <div class="col-sm-5">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <a ui-sref="orderlist" class="btn btn-primary">Cancel</a>
+                            </div>    
+                        </div>
+                    </form>
+                <div>
+            </div>
+        </div>
+    </div>

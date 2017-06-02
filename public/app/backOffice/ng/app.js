@@ -1,0 +1,120 @@
+// console.log('aaaapp.js');
+var app = angular.module('shop.cpanel',["ui.router","ngFileUpload"]);
+app.config(function($stateProvider) {
+    $stateProvider.
+    state("dashboard", {
+        url:"/cpanel/dashboard",
+        controller:'dashCtrl',
+        templateUrl:'backOffice/ng/dashboard.html'
+    }).
+    state("orderlist", {
+        url:"/cpanel/orders",
+        controller:'OrderListCtrl',
+        templateUrl:'backOffice/ng/orders/list.html'
+    }).
+    state("OrderAdd", {
+        url:"/cpanel/orders/add",
+        controller:'OrderAddCtrl',
+        templateUrl:'backOffice/ng/orders/add.html'
+    }).
+    state("editProduct", {
+        url:"/cpanel/orders/edit/:id",
+        controller:'EditProductCtrl',
+        templateUrl:'backOffice/ng/orders/edit.html'
+    });
+});   
+
+
+	app.controller('dashCtrl',function($scope){
+		console.log('fffffffff');
+		
+	});
+
+	app.controller('OrderListCtrl', function($scope, $state, Cpanel, $uibModal){
+		$scope.productList = function(add){
+			Cpanel.productList().success(function(res, status){
+				$scope.productList = res.data;
+			});
+		};
+		$scope.currentPage = 1;
+		$scope.pageSize = 5;
+		$scope.edit = function(id){
+			$state.go('editProduct', {id: id});
+		};
+		$scope.productList();
+	});
+
+	app.controller('OrderAddCtrl', function($scope, $rootScope, ngDialog, $state, Cpanel){
+		$scope.loader = false;
+		$scope.add = {};
+		$scope.imgShow = false;
+		//console.log(window.location.origin);
+		$scope.addProduct = function(add){
+			console.log(add);
+			Cpanel.postAddProduct(add).success(function(res, status){
+				$state.go('orderlist');
+			});
+		};
+		$scope.selectedFiles = function(file, err){
+			if(err.length > 0){
+				console.log(err);
+			}else{
+				$scope.fileData = file;
+				$scope.uploadFile();
+			}	
+		};
+		$scope.uploadFile = function(){
+			var files = $scope.fileData,
+				fd = new FormData();
+    		fd.append("file", files);
+			Cpanel.imageUpload(fd).success(function(res, status){
+				if(res.filePath){
+					$scope.imgShow = true;
+					$scope.add.original_path = res.rootPath;
+					$scope.add.image_path  = res.filePath;
+				}	
+			});
+		};
+	});
+
+	app.controller('EditProductCtrl', function($uibModal, $scope, $stateParams, $rootScope, Cpanel, ngDialog){
+		$scope.productId = $stateParams.id;
+		$scope.checkUpload = true;
+		$scope.getProduct = function(){
+			Cpanel.getProductEdit($scope.productId).success(function(res, status){
+				if(res.data.image_path) $scope.imgShow = true;
+				$scope.productEditData = res.data;
+				$scope.image = $scope.productEditData.image_path;
+			});
+		};	
+		$scope.selectedFiles = function(file, err){
+			if(err.length > 0){
+				console.log(err);
+			}else{
+				$scope.fileData = file;
+				$scope.checkUpload = false;
+				$scope.uploadFile();
+			}
+		};
+		$scope.uploadFile = function(){
+			var files = $scope.fileData,
+				fd = new FormData();
+    		fd.append("file", files);
+			Cpanel.imageUpload(fd).success(function(res, status){
+				ngDialog.close();
+				if(res.filePath){
+					$scope.imgShow = true;
+					$scope.productEditData.original_path = res.rootPath;
+					$scope.productEditData.image_path  = res.filePath
+				}	
+			});
+		};
+		$scope.updateProduct = function(data){
+			data._id = $scope.productId;
+			console.log(data);
+			Cpanel.postUpdateProduct($scope.productEditData).success(function(res, status){
+				console.log(res);
+			});
+		};
+		$scope.getProduct();		
+	});
