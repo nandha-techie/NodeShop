@@ -2,12 +2,19 @@ var express	= require('express'),
 	app = express(),
 	bodyParser = require('body-parser'),
 	passport = require('passport'),
+	session = require('express-session'),
+	//methodOverride = require('method-override'),
+	cookieParser = require('cookie-parser'),
 	port = process.env.PORT||1050;
 	app.use(express.static('./public/app'));
-	//app.use(express.static('./public/app/BE_assets/uploads'));
-
+	app.use(cookieParser());
+	app.use(bodyParser.urlencoded({extended: false}));
 	app.use(bodyParser.json());
-	
+	app.use(session({
+	  secret: 'secrettexthere',
+	  saveUninitialized: true,
+	  resave: true,
+	}));
 	app.use(passport.initialize());
 	app.use(passport.session());
 
@@ -19,6 +26,6 @@ var express	= require('express'),
 	
 
 
-	app.listen(port,function(){
+	app.listen(port, function(){
 		console.log('server running on port:', port);
 	});

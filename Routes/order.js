@@ -15,31 +15,31 @@ var Admin = require('../Model/Admin'),
 
 module.exports = function(app, passport) {
 
-	app.get('/logout',function(req, res) {
+	app.get('/adminLogout',function(req, res, next) {
 		req.logout();
 		console.log('llllllllllllll');
-        res.json({error: 'logout'});
+        res.status(200).json({success: 'Logout successfully'});
     });
 
-	app.post('/cpanel/dashbord',isLoggedIn, function(req, res) {
-       res.json({id:req.user._id, success:'ok'});
+	app.post('/cpanel/dashbord',isLoggedIn, function(req, res, next) {
+       res.status(200).json({status : true, id:req.user._id, success:'ok'});
     });
 
-	app.get('/cpanel/dashbord',function(req, res) {
+	app.get('/cpanel/dashbord',function(req, res, next) {
        res.status(200).json({success: 'logged in successfully'});
     });	
 
-    app.get('/errorlogin',function(req, res) {
-       res.status(401).json({error: 'auth error'});
+    app.get('/errorlogin',function(req, res, next) {
+    	req.logout();
+        res.status(401).json({status : false, error: 'Unauthorized User'});
     });
 
 	app.post('/cpanel/login', passport.authenticate('local-login',{
         successRedirect:'/cpanel/dashbord',
         failureRedirect:'/errorlogin',
-        failureFlash:false
     }));
 
-    app.post('/imageUpload', multipart, function(req, res){
+    app.post('/imageUpload', isLoggedIn, multipart, function(req, res, next){
     	var file = req.files.file, upload = '/uploads/', rootPath = path.join(__dirname, '../public/app' + upload),
 			thumbnail = path.join(upload, 'thumbnail/');
 			//console.log(thumbnail);
@@ -80,28 +80,28 @@ module.exports = function(app, passport) {
 			}
     });
 
-    app.post('/addproduct', function(req, res){
+    app.post('/addproduct', isLoggedIn, function(req, res, next){
     	var data = req.body;
     	Products.create({name: data.name, price: data.price, description: data.description, original_path: data.original_path, image_path: data.image_path, category: data.category, }, function(err){
     		if(err) return res.status(400).json({status: false, error: err.message,});
     		else return res.status(200).json({ status: true, message: 'Product Inserted Successfully'});
     	});
     });
-    app.get('/productlist', function(req, res){
+    app.get('/productlist', isLoggedIn, function(req, res, next){
     	Products.find({}, function(err, products){
     		//console.log(products);
     		if(err) return res.status(400).json({status: false, error: err.message,});
     		else return res.status(200).json({ status: true, data: products });
     	});
     });
-    app.get('/getProductEdit/:id', function(req, res){
+    app.get('/getProductEdit/:id', isLoggedIn, function(req, res, next){
     	var id = req.params.id;
     	Products.findOne({_id: id}, function(err, products){
     		if(err) return res.status(400).json({status: false, error: err.message,});
     		else return res.status(200).json({ status: true, data: products });
     	});
     });
-    app.post('/postUpdateProduct', function(req, res){
+    app.post('/postUpdateProduct', isLoggedIn, function(req, res, next){
     	var data = req.body;
     	Async.waterfall([
     		function(callback){ Products.findOne({_id: data._id}).exec(function(err, product){ callback(err, product);}); },
@@ -127,7 +127,7 @@ module.exports = function(app, passport) {
 		var data = {};
 		data.name = 'admin';
 		data.email = 'admin@shop.com';
-		data.password = 'admin@shop.com';
+		data.password = 'admin123';
 		data.firstname = 'admin@shop.com';
 		data.lastname = 'admin@shop.com';
 		console.log(data);
@@ -141,10 +141,9 @@ module.exports = function(app, passport) {
 	});*/
 
 };
-	function isLoggedIn(req,res,next) {
+	function isLoggedIn(req, res, next) {
         if(req.isAuthenticated())
             return next();
-        //res.json({message:'home'});
-        return res.redirect('/errorlogin');
+        else return res.redirect('/errorlogin');
     }
 

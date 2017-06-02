@@ -23,6 +23,9 @@ app.factory('Cpanel', function($http){
 		postUpdateProduct: function(data){
 			return $http.post(window.location.origin + '/postUpdateProduct', data);
 		},
+		adminLogout: function(id){
+			return $http.get(window.location.origin + '/adminLogout');
+		},
 	};
 })
 

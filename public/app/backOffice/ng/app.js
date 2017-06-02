@@ -34,6 +34,12 @@ app.config(function($stateProvider) {
 		$scope.productList = function(add){
 			Cpanel.productList().success(function(res, status){
 				$scope.productList = res.data;
+			}).error(function(error, status){
+				if(status == 401){
+					if(status == 401) $state.go('cpanel');
+				}else{
+					 $state.go('cpanel');
+				}
 			});
 		};
 		$scope.currentPage = 1;
@@ -41,16 +47,20 @@ app.config(function($stateProvider) {
 		$scope.edit = function(id){
 			$state.go('editProduct', {id: id});
 		};
+		$scope.logout = function(){
+			Cpanel.adminLogout().success(function(res, status){
+				$state.go('cpanel');
+			});
+		};
 		$scope.productList();
 	});
 
-	app.controller('OrderAddCtrl', function($scope, $rootScope, ngDialog, $state, Cpanel){
+	app.controller('OrderAddCtrl', function($scope, $state, $rootScope, ngDialog, $state, Cpanel){
 		$scope.loader = false;
 		$scope.add = {};
 		$scope.imgShow = false;
 		//console.log(window.location.origin);
 		$scope.addProduct = function(add){
-			console.log(add);
 			Cpanel.postAddProduct(add).success(function(res, status){
 				$state.go('orderlist');
 			});
@@ -75,9 +85,14 @@ app.config(function($stateProvider) {
 				}	
 			});
 		};
+		$scope.logout = function(){
+			Cpanel.adminLogout().success(function(res, status){
+				$state.go('cpanel');
+			});
+		};
 	});
 
-	app.controller('EditProductCtrl', function($uibModal, $scope, $stateParams, $rootScope, Cpanel, ngDialog){
+	app.controller('EditProductCtrl', function($uibModal, $state, $scope, $stateParams, $rootScope, Cpanel, ngDialog){
 		$scope.productId = $stateParams.id;
 		$scope.checkUpload = true;
 		$scope.getProduct = function(){
@@ -111,9 +126,13 @@ app.config(function($stateProvider) {
 		};
 		$scope.updateProduct = function(data){
 			data._id = $scope.productId;
-			console.log(data);
 			Cpanel.postUpdateProduct($scope.productEditData).success(function(res, status){
-				console.log(res);
+				$state.go('orderlist');
+			});
+		};
+		$scope.logout = function(){
+			Cpanel.adminLogout().success(function(res, status){
+				$state.go('cpanel');
 			});
 		};
 		$scope.getProduct();		

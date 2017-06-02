@@ -10,7 +10,6 @@ module.exports = function(passport) {
 	
 	passport.deserializeUser(function(id, done) {
 		Admin.findById(id,function(err, user) {
-			console.log('deserializeUser');
 			done(err, user);
 		});
     });
@@ -30,7 +29,7 @@ module.exports = function(passport) {
 				passReqToCallback:true
 		 },
 		 function(req,email,password,done) {
-		 	console.log('email ',email,' password ',password);
+		 	//console.log('email ', email,' password ',password);
 		 	Admin.findOne({ email: email }, function(err, user) {
 		 		if(err){
 		 			return done(err);
@@ -38,15 +37,15 @@ module.exports = function(passport) {
                 }
                 var dataExportt = new Admin();
                 var actual;
-                if (user != null) {
-                 actual=dataExportt.validPassword(password,user.password);
+                if (user != null){
+                 actual = dataExportt.validPassword(password, user.password);
                 }
-                console.log('actual '+actual);
 		 		if(!actual){
-                    req.message = 'incorrect email id ';
-		 			return done(null, false, {message:'incorrect email id '});
-                }
-		 		return done(null, user);
+                    //req.message = 'incorrect email id ';
+		 			return done(null, false);
+                }else{
+                 	return done(null, user);
+                } 
 		 	});
 		}));
 };

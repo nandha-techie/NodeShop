@@ -14,7 +14,7 @@ var app = angular.module('shop',["shop.factory", "ui.router","ngDialog","ui.boot
 		    });
 	});   
 
-app.controller('appCtrl',function($scope,$rootScope) {
+app.controller('appCtrl',function($scope, $state, $rootScope) {
 	
 	console.log('oooooooaaaa');
 });
