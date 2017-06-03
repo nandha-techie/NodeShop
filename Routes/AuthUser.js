@@ -19,9 +19,14 @@ module.exports = function(app, passport) {
         res.status(200).json({success: 'Logout successfully'});
     });
 
+	app.post('/userLogin', function(req, res){
+		res.status(200).json({success: 'login urlll'+req.body.password});
+	});
+
     app.post('/signup', function(req, res, next){
     	var data = req.body;
-    	var password = Users.generateHash(data.password);
+    	var userObj = new Users();
+    	var password = userObj.generateHash(data.password);
     	Async.waterfall([
     		function(callback){ Users.findOne({email: data.email}).exec(function(err, user){ callback(err, user);}); },
     		function(user, callback){
@@ -39,5 +44,6 @@ module.exports = function(app, passport) {
 			}
     	);
     });
+
 
 }

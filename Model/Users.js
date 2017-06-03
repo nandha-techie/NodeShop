@@ -38,12 +38,10 @@ var mongoose = require('mongoose'),
 	});
 
 	UsersSchema.methods.generateHash=function(password) {
-		console.log('password '+password);
 		return bcrypt.hashSync(password,bcrypt.genSaltSync(8), null);
 	};
 
 	UsersSchema.methods.validPassword = function(password, dbpass) {
-		console.log('pass '+password+' dbpass '+dbpass);
 		return bcrypt.compareSync(password, dbpass);
 	};
 	

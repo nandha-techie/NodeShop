@@ -37,5 +37,8 @@ app.factory('UserService', function($http){
 		createUser: function(data){
 			return $http.post(window.location.origin + '/signup', data);
 		},
+		userLogin: function(data){
+			return $http.post(window.location.origin + '/userLogin', data);
+		},
 	};
 });
