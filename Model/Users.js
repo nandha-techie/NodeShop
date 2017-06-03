@@ -3,21 +3,7 @@ var mongoose = require('mongoose'),
 	bcrypt = require('bcrypt-nodejs'),
 	Schema 		=	mongoose.Schema;
 
-	AdminSchema	=	new Schema({
-		firstname: {
-			type: String,
-			required: true, /*Null not allow*/
-			validate: [
-				validators.isLength(3, 100), /*validate length is between 3 to 25*/
-			],
-		},
-		lastname: {
-			type: String,
-			required: true, /*Null not allow*/
-			validate: [
-				validators.isLength(3, 25), /*validate length is between 3 to 25*/
-			],
-		},
+	UsersSchema = new Schema({
 		name: {
 			type: String,
 			required: true, /*Null not allow*/
@@ -28,24 +14,21 @@ var mongoose = require('mongoose'),
 		email: {
 			type: String,
 			required: true, /*Null not allow*/
-			index: {
-				unique: true, /*unique validation/index*/
-			},
-			validate: [
-				validators.isEmail(), /*validate is email*/
-			],
+		},
+		phone: {
+			type: Number,
+			required: true, /*Null not allow*/
 		},
 		password: {
 			type: String,
 			required: true, /*Null not allow*/
-			// validate: [validators.isLength(8, 25), /*validate length is between 8 to 25*/],
 		},
-		isAdmin: {
+		status: {
 			type: Boolean,
 			default: true,
 		},
 	}, {
-		collection: 'admin', // table name
+		collection: 'users', // table name
 		toObject: {
 			virtuals: true, // enable virtual fields
 		},
@@ -54,16 +37,16 @@ var mongoose = require('mongoose'),
 		},
 	});
 
-	AdminSchema.methods.generateHash = function(password) {
+	UsersSchema.methods.generateHash=function(password) {
 		console.log('password '+password);
 		return bcrypt.hashSync(password,bcrypt.genSaltSync(8), null);
 	};
 
-	AdminSchema.methods.validPassword = function(password, dbpass) {
+	UsersSchema.methods.validPassword = function(password, dbpass) {
 		console.log('pass '+password+' dbpass '+dbpass);
 		return bcrypt.compareSync(password, dbpass);
 	};
-
-module.exports=mongoose.model('admin',AdminSchema);
+	
+module.exports = mongoose.model('users', UsersSchema);
 
 

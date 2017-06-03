@@ -26,6 +26,16 @@ app.factory('Cpanel', function($http){
 		adminLogout: function(id){
 			return $http.get(window.location.origin + '/adminLogout');
 		},
+		previewAll: function(){
+			return $http.get(window.location.origin + '/previewAll');
+		},
 	};
-})
+});
 
+app.factory('UserService', function($http){
+	return {
+		createUser: function(data){
+			return $http.post(window.location.origin + '/signup', data);
+		},
+	};
+});

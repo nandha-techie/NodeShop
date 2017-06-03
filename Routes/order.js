@@ -1,4 +1,3 @@
-console.log('oooooooorrrrrddd');
 var Admin = require('../Model/Admin'),
 	Products = require('../Model/Products'),
 	moment	=	require('moment'),
@@ -17,7 +16,6 @@ module.exports = function(app, passport) {
 
 	app.get('/adminLogout',function(req, res, next) {
 		req.logout();
-		console.log('llllllllllllll');
         res.status(200).json({success: 'Logout successfully'});
     });
 
@@ -120,6 +118,7 @@ module.exports = function(app, passport) {
     	);
     	
     });
+    
 
 
 

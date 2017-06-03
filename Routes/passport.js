@@ -4,7 +4,6 @@ var Admin = require('../Model/Admin');
 
 module.exports = function(passport) {
 	passport.serializeUser(function(user, done) {
-		console.log('serializeUser ');
 		done(null,user.id);
 	});
 	

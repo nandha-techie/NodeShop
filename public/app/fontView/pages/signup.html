@@ -1,0 +1,64 @@
+<nav role="navigation" class="navbar navbar-default navbar-fixed-top">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a href="#" class="navbar-brand">Brand</a>
+    </div>
+    <!-- Collection of nav links and other content for toggling -->
+    <div id="navbarCollapse" class="collapse navbar-collapse" >
+        <ul class="nav navbar-nav">
+            <li ><a href="#">Home</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Messages</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" style="padding-right: 20px;">
+            <li class="active"><a href="#">Signup</a></li>
+            <li><a href="#">Login</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container" style="background-color:red; width: 100%;">
+<div class="container container1">
+    <div class="row">
+        <div class="panel panel-primary" style="margin-top: 60px;">
+            <div class="panel-body">
+                <form ng-submit="signup(sign)" role="form" class="">
+                    <div class="form-group">
+                        <h3 style="text-align: center;">Create account</h3>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="signupName">Your name</label>
+                        <input type="text" ng-model="sign.name" id="signupName" maxlength="200" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="signupEmail">Email</label>
+                        <input type="email" ng-model="sign.email" id="signupEmail"  maxlength="50" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="signupEmailagain">Phone</label>
+                        <input type="number" ng-model="sign.phone" id="signupEmailagain" maxlength="50" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="signupPassword">Password</label>
+                        <input type="password" ng-model="sign.password" id="signupPassword" maxlength="25" class="form-control" placeholder="at least 6 characters" length="40">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="signupPasswordagain">Password again</label>
+                        <input type="password" ng-model="sign.confirm" id="signupPasswordagain" maxlength="25" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" id="signupSubmit" class="btn btn-info btn-block">Create your account</button>
+                    </div>
+                    <p class="form-group">By creating an account, you agree to our <a href="#">Terms of Use</a> and our <a href="#">Privacy Policy</a>.</p>
+                    Already have an account? <a href="#">Sign in</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>

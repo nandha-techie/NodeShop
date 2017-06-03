@@ -1,5 +1,5 @@
 // console.log('aaaapp.js');
-var app = angular.module('shop.cpanel',["ui.router","ngFileUpload"]);
+var app = angular.module('shop.cpanel',["ngFileUpload"]);
 app.config(function($stateProvider) {
     $stateProvider.
     state("dashboard", {
@@ -100,6 +100,12 @@ app.config(function($stateProvider) {
 				if(res.data.image_path) $scope.imgShow = true;
 				$scope.productEditData = res.data;
 				$scope.image = $scope.productEditData.image_path;
+			}).error(function(error, status){
+				if(status == 401){
+					if(status == 401) $state.go('cpanel');
+				}else{
+					 $state.go('cpanel');
+				}
 			});
 		};	
 		$scope.selectedFiles = function(file, err){

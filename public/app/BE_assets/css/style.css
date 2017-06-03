@@ -16,3 +16,6 @@
   opacity: 0.4;
   filter: alpha(opacity=40); /* For IE8 and earlier */
 }
+
+/*signup form*/
+.container1 { max-width: 460px; }

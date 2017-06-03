@@ -11,9 +11,9 @@ var express	= require('express'),
 	app.use(bodyParser.urlencoded({extended: false}));
 	app.use(bodyParser.json());
 	app.use(session({
-	  secret: 'secrettexthere',
-	  saveUninitialized: true,
-	  resave: true,
+		secret: 'secrettexthere',
+		saveUninitialized: true,
+		resave: true,
 	}));
 	app.use(passport.initialize());
 	app.use(passport.session());
@@ -21,6 +21,7 @@ var express	= require('express'),
 	require('./Model/dbConnection');
 	require('./Routes/passport')(passport);
 	require('./Routes/order')(app, passport);
+	require('./Routes/AuthUser')(app, passport);
 
 
 	
