@@ -29,7 +29,7 @@ module.exports = function(app, passport) {
 
     app.get('/errorlogin',function(req, res, next) {
     	req.logout();
-        res.status(401).json({status : false, error: 'Unauthorized User'});
+        res.status(401).json({status : false, error: 'Unauthorized Admin'});
     });
 
 	app.post('/cpanel/login', passport.authenticate('local-login',{

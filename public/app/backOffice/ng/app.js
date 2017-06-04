@@ -21,14 +21,33 @@ app.config(function($stateProvider) {
         url:"/cpanel/orders/edit/:id",
         controller:'EditProductCtrl',
         templateUrl:'backOffice/ng/orders/edit.html'
-    });
+    }).
+    state("cpanel", {
+        url: "/cpanel",
+        controller: 'cpanelCtrl',
+        templateUrl: '/backOffice/login.html'
+	});
 });   
 
 
-	app.controller('dashCtrl',function($scope){
-		console.log('fffffffff');
-		
-	});
+app.controller('dashCtrl',function($scope){
+	console.log('fffffffff');
+	
+});
+
+app.controller('cpanelCtrl',function($scope, $state, $rootScope, Cpanel) {
+	$scope.login = function(input){
+		Cpanel.adminLogin(input).success(function(status, res){
+			$state.go('dashboard');
+		}).error(function(error, status){
+			// if(status != 409){
+			// 	state.go('');
+			// }else{
+			// 	$state.go('index');
+			// }
+		});
+	};
+});
 
 	app.controller('OrderListCtrl', function($scope, $state, Cpanel, $uibModal){
 		$scope.productList = function(add){

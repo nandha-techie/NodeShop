@@ -8,8 +8,9 @@ var express	= require('express'),
 	port = process.env.PORT||1050;
 	app.use(express.static('./public/app'));
 	app.use(cookieParser());
-	app.use(bodyParser.urlencoded({extended: false}));
+	app.use(bodyParser.urlencoded({extended: true}));
 	app.use(bodyParser.json());
+	app.use(bodyParser.raw());
 	app.use(session({
 		secret: 'secrettexthere',
 		saveUninitialized: true,

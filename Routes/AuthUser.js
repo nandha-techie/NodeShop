@@ -19,11 +19,21 @@ module.exports = function(app, passport) {
         res.status(200).json({success: 'Logout successfully'});
     });
 
-	app.post('/userLogin', function(req, res){
-		res.status(200).json({success: 'login urlll'+req.body.password});
+	app.get('/errorUserlogin', function(req, res, next) {
+		req.logout();
+        res.status(401).json({status : false, error: 'Unauthorized User'});
 	});
 
-    app.post('/signup', function(req, res, next){
+	app.get('/userSuccessLogin', isLoggedIn, function(req, res, next) {
+		res.status(200).json({ message: 'Logged in Successfully',});
+	});
+
+	app.post('/userLogin', passport.authenticate('local-userLogin', {
+        successRedirect:'/userSuccessLogin',
+        failureRedirect:'/errorUserlogin',
+    }));
+
+    app.post('/signup', function(req, res, next) {
     	var data = req.body;
     	var userObj = new Users();
     	var password = userObj.generateHash(data.password);
@@ -45,5 +55,10 @@ module.exports = function(app, passport) {
     	);
     });
 
+}
 
+function isLoggedIn(req, res, next) {
+	if(req.isAuthenticated())
+		return next();
+	else return res.redirect('/errorUserlogin');
 }

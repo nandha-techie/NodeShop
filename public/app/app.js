@@ -1,5 +1,5 @@
 // console.log('mainctrl.js');
-var app = angular.module('shop',["shop.factory", "ui.router","ngDialog","ui.bootstrap","ngAnimate", "shop.cpanel"]);
+var app = angular.module('shop',["shop.factory", "shop.cpanel", "ui.router","ngDialog","ui.bootstrap","ngAnimate"]);
 	app.config(function($stateProvider){
 	    $stateProvider.
 		    state("index", {
@@ -17,10 +17,10 @@ var app = angular.module('shop',["shop.factory", "ui.router","ngDialog","ui.boot
 		        controller: 'LoginCtrl',
 		        templateUrl: '/fontView/pages/login.html'
 		    }).
-		    state("cpanel", {
-		        url: "/cpanel",
-		        controller: 'cpanelCtrl',
-		        templateUrl: '/backOffice/login.html'
+		    state("userDashboard", {
+		        url: "/userdashboard",
+		        controller: 'UserDashboardCtrl',
+		        templateUrl: '/fontView/pages/userDashboard.html'
 		    });
 		    
 	});   
@@ -32,7 +32,7 @@ app.controller('appCtrl', function($scope, $state, $rootScope, Cpanel) {
 		});
 		
 	};
-	$scope.getAll();
+	//$scope.getAll();
 });
 
 app.controller('signupCtrl', function($scope, $state, $rootScope, UserService) {
@@ -52,17 +52,21 @@ app.controller('signupCtrl', function($scope, $state, $rootScope, UserService) {
 
 app.controller('LoginCtrl',function($scope, $state, $rootScope, UserService) {
 	$scope.login = function(input){
+		console.log(input);
+		UserService.userLogin(input).success(function(res, status){
+			//$state.go('userDashboard');
+		}).error(function(error, status){
+			//console.log(error.message);
+		});
+	};
+});
+
+app.controller('UserDashboardCtrl',function($scope, $state, $rootScope, UserService) {
+	$scope.login = function(input){
 		UserService.userLogin(input).success(function(status, res){
 			$state.go('dashboard');
 		});
 	};
 }); 
-
-app.controller('cpanelCtrl',function($scope, $state, $rootScope, Cpanel) {
-	$scope.login = function(input){
-		Cpanel.adminLogin(input).success(function(status, res){
-			$state.go('dashboard');
-		});
-	};
-});     	 
+     	 
 
