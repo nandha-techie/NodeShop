@@ -1,4 +1,5 @@
-var LocalStrategy = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy,
+	FacebookStrategy = require('passport-facebook').Strategy;
 var bcrypt = require('bcrypt-nodejs');
 var Admin = require('../Model/Admin');
 var Users = require('../Model/Users');
@@ -72,4 +73,18 @@ module.exports = function(passport) {
             } 
 	 	});
 	}));
+
+	passport.use(new FacebookStrategy({
+		clientID: "1533309866767182",
+		clientSecret: "5cddd6fb28fedbd60bb415c9974ceb3f",
+		callbackURL: "http://localhost:1050/#/facebook/callback"
+	},
+		function(accessToken, refreshToken, profile, done) {
+			//User.findOrCreate(..., function(err, user) {
+				//if (err) { return done(err); }
+				console.log(profile);
+				done(null, profile);
+			//});
+		}
+	));
 };

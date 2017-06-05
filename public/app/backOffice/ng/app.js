@@ -62,10 +62,16 @@ app.controller('cpanelCtrl',function($scope, $state, $rootScope, Cpanel) {
 			});
 		};
 		$scope.currentPage = 1;
-		$scope.pageSize = 5;
+		$scope.pageSize = 8;
 		$scope.edit = function(id){
 			$state.go('editProduct', {id: id});
 		};
+		$scope.delete = function(index, id){
+			Cpanel.deleteProduct(id).success(function(res, status){
+				$scope.productList.splice(index, 1);
+				$state.go('orderlist');
+			});
+		}
 		$scope.logout = function(){
 			Cpanel.adminLogout().success(function(res, status){
 				$state.go('cpanel');
@@ -79,10 +85,17 @@ app.controller('cpanelCtrl',function($scope, $state, $rootScope, Cpanel) {
 		$scope.add = {};
 		$scope.imgShow = false;
 		//console.log(window.location.origin);
-		$scope.addProduct = function(add){
-			Cpanel.postAddProduct(add).success(function(res, status){
-				$state.go('orderlist');
+		$scope.addProduct = function(form, add){
+			angular.forEach(form.$error, function(field){
+				angular.forEach(field, function(errorField){
+					errorField.$setTouched();
+				});
 			});
+			if(form.$valid){
+				Cpanel.postAddProduct(add).success(function(res, status){
+					$state.go('orderlist');
+				});
+			}
 		};
 		$scope.selectedFiles = function(file, err){
 			if(err.length > 0){

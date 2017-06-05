@@ -16,20 +16,26 @@
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div style="padding: 10px 0px 0px 20px;">
-                    <form ng-submit="updateProduct(productEditData)">
+                    <form name="editProduct" ng-submit="updateProduct(editProduct, productEditData)">
                         <div class="form-group row">
                             <label for="example-text-input" class="col-sm-2">Categories</label>
                             <div class="col-sm-5">
-                                <select ng-model="productEditData.category">
+                                <select name="category" ng-model="productEditData.category" required>
                                     <option value="nature" selected>Nature</option>
                                     <option value="watches">Watches</option>
                                 </select>
+                                <div ng-show="editProduct.category.$touched" ng-messages="editProduct.category.$error" class="error-text" role="alert">
+                                    <div ng-message="required" style="color: red">Category field required</div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="example-text-input" class="col-sm-2">Name</label>
                             <div class="col-sm-5">
-                                <input type="text" ng-model="productEditData.name"></input>
+                                <input type="text" name="name" ng-model="productEditData.name" required></input>
+                                <div ng-show="editProduct.name.$touched" ng-messages="editProduct.name.$error" class="error-text" role="alert">
+                                    <div ng-message="required" style="color: red">Name field required</div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -42,7 +48,10 @@
                         <div class="form-group row">
                             <label for="example-text-input" class="col-sm-2">Price</label>
                             <div class="col-sm-5">
-                                <input type="number" ng-model="productEditData.price"></input>
+                                <input type="number" name="price" ng-model="productEditData.price" required></input>
+                                <div ng-show="editProduct.price.$touched" ng-messages="editProduct.price.$error" class="error-text" role="alert">
+                                    <div ng-message="required" style="color: red">Price field required</div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">

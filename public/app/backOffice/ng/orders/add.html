@@ -16,33 +16,41 @@
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div style="padding: 10px 0px 0px 20px;">
-                    <form ng-submit="addProduct(add)">
+                    <form name="newProduct" ng-submit="addProduct(newProduct, add)" novalidate>
                         <div class="form-group row">
                            <label for="example-text-input" class="col-sm-2">Categories</label>
                           <div class="col-sm-5">
-                            <select ng-model="add.category">
+                            <select name="category" ng-model="add.category" required>
                                 <option value="nature" selected>Nature</option>
                                 <option value="watches">Watches</option>
                             </select>
+                            <div ng-show="newProduct.category.$touched" ng-messages="newProduct.category.$error" class="error-text" role="alert">
+                                <div ng-message="required" style="color: red">Category field required</div>
+                            </div>
                           </div>
                         </div>
                         <div class="form-group row">
                             <label for="example-text-input" class="col-sm-2">Name</label>
                             <div class="col-sm-5">
-                                <input type="text" ng-model="add.name"></input>
+                                <input type="text" name="name" ng-model="add.name" required></input>
+                                <div ng-show="newProduct.name.$touched" ng-messages="newProduct.name.$error" class="error-text" role="alert">
+                                    <div ng-message="required" style="color: red">Name field required</div>
+                                </div>
                             </div>
-                        </div><!-- <input type="text" ng-model="add.image_path"></input> -->
+                        </div>
                         <div class="form-group row">
                             <label for="example-text-input" class="col-sm-2">Image</label>
                             <div class="col-sm-5">
-                                <input type="file" class="fileinput-filename" ngf-select="selectedFiles($file, $invalidFiles)" accept="image/*" ngf-max-height="10000" ngf-max-size="5MB">
-                                <!-- <button type="button" ng-click="popDialog()">Upload</button> --><span ng-show="imgShow" style=""><img ng-src="{{add.image_path}}" style="width: 30px; height: 30px;"></span>
+                                <input type="file" class="fileinput-filename" ngf-select="selectedFiles($file, $invalidFiles)" accept="image/*" ngf-max-height="10000" ngf-max-size="5MB"><span ng-show="imgShow" style=""><img ng-src="{{add.image_path}}" style="width: 30px; height: 30px;"></span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="example-text-input" class="col-sm-2">Price</label>
                             <div class="col-sm-5">
-                                <input type="number" ng-model="add.price"></input>
+                                <input type="number" name="price" ng-model="add.price" required></input>
+                                <div ng-show="newProduct.price.$touched" ng-messages="newProduct.price.$error" class="error-text" role="alert">
+                                    <div ng-message="required" style="color: red">Price field required</div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">

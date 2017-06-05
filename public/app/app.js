@@ -17,6 +17,11 @@ var app = angular.module('shop',["shop.factory", "shop.cpanel", "ui.router","ngD
 		        controller: 'LoginCtrl',
 		        templateUrl: '/fontView/pages/login.html'
 		    }).
+		    state("userHome", {
+		        url: "/facebook/callback/?code",
+		        controller: 'UserHomeCtrl',
+		        templateUrl: '/fontView/pages/userDashboard.html'
+		    }).
 		    state("userDashboard", {
 		        url: "/userdashboard",
 		        controller: 'UserDashboardCtrl',
@@ -25,14 +30,17 @@ var app = angular.module('shop',["shop.factory", "shop.cpanel", "ui.router","ngD
 		    
 	});   
 
-app.controller('appCtrl', function($scope, $state, $rootScope, Cpanel) {
+app.controller('appCtrl', function($scope, $state, $rootScope, Cpanel, UserService) {
 	$scope.getAll = function(){
 		Cpanel.previewAll().success(function(res, status){
 			console.log(res);
+			$scope.products = res.data;
 		});
 		
 	};
-	//$scope.getAll();
+	$scope.currentPage = 1;
+	$scope.pageSize = 8;
+	$scope.getAll();
 });
 
 app.controller('signupCtrl', function($scope, $state, $rootScope, UserService) {
@@ -59,7 +67,27 @@ app.controller('LoginCtrl',function($scope, $state, $rootScope, UserService) {
 			//console.log(error.message);
 		});
 	};
+	$scope.fblogin = function(){
+		UserService.fb().success(function(res, status){
+			//$state.go('userDashboard');
+		}).error(function(error, status){
+			//console.log(error.message);
+		});
+	};
 });
+
+app.controller('UserHomeCtrl',function($scope, $state, $rootScope, UserService) {
+	// $scope.login = function(input){
+	// 	UserService.userLogin(input).success(function(status, res){
+	// 		$state.go('dashboard');
+	// 	});
+	// };
+	UserService.profile().success(function(res, status){
+			//$state.go('dashboard');
+			console.log(res);
+	});
+	console.log('ttttttttttttt');
+}); 
 
 app.controller('UserDashboardCtrl',function($scope, $state, $rootScope, UserService) {
 	$scope.login = function(input){
@@ -67,6 +95,11 @@ app.controller('UserDashboardCtrl',function($scope, $state, $rootScope, UserServ
 			$state.go('dashboard');
 		});
 	};
+	UserService.profile().success(function(res, status){
+			//$state.go('dashboard');
+			console.log(res);
+	});
+	console.log('ooooooooooooo');
 }); 
      	 
 

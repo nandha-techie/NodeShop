@@ -29,6 +29,9 @@ app.factory('Cpanel', function($http){
 		previewAll: function(){
 			return $http.get(window.location.origin + '/previewAll');
 		},
+		deleteProduct: function(id){
+			return $http.get(window.location.origin + '/deleteProduct/'+id);
+		},
 	};
 });
 
@@ -39,6 +42,12 @@ app.factory('UserService', function($http){
 		},
 		userLogin: function(data){
 			return $http.post(window.location.origin + '/userLogin', data);
+		},
+		fb: function(){
+			return $http.get(window.location.origin + '/auth/facebook');
+		},
+		profile: function(){
+			return $http.get(window.location.origin + '/facebooklogin/callback');
 		},
 	};
 });

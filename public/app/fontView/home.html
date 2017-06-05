@@ -30,9 +30,20 @@
     	vxcvx<br>ghcvnbn
     </div>
     <div class="col-sm-8" style=" height: 612px;">
-    	<div>
-    		
-    	</div>
+        <div style="margin-top: 15px;">
+        	<div class="row imagetiles">
+                <div ng-repeat="product in products.slice(((currentPage-1)*pageSize), ((currentPage)*pageSize))">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-8">
+                       <div style=" border: 1px solid black; margin: 5px 5px 5px 5px; padding: 5px 5px 5px 5px;">
+                            <a href=""><img ng-src="{{product.image_path}}" class="img-responsive" style="width: auto;height: 150px;"></a>
+                            <p style="overflow: hidden;">Name: <strong>{{product.name}} </strong></p>
+                            <p>Price: <strong>{{product.price}} <i class="fa fa-usd" aria-hidden="true"></i></strong></p>
+                       </div>
+                    </div>
+                </div> 
+            </div>
+            <ul uib-pagination total-items="products.length" items-per-page="pageSize" ng-model="currentPage" ng-change="pageChanged()"></ul>
+        </div>
     </div>
     <div class="col-sm-2" style="background-color:lavender; height: 612px;">.col-sm-4</div>
   </div>

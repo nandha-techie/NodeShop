@@ -1,5 +1,6 @@
 var Admin = require('../Model/Admin'),
 	Users = require('../Model/Users'),
+    Products = require('../Model/Products'),
 	moment	=	require('moment'),
 	Multiparty	=	require('connect-multiparty'),
 	//_ =	require("underscore"),
@@ -16,7 +17,11 @@ var Admin = require('../Model/Admin'),
 module.exports = function(app, passport) {
 
 	app.get('/previewAll', function(req, res, next) {
-        res.status(200).json({success: 'Logout successfully'});
+        Products.find({}).exec(function(err, products) {
+            if(err){
+                return res.status((err.statusCode != undefined) ? err.statusCode : 400).json({ status: false, error: err.message, });
+            }else res.status(200).json({status: true, data: products});
+        });    
     });
 
 	app.get('/errorUserlogin', function(req, res, next) {
@@ -55,6 +60,17 @@ module.exports = function(app, passport) {
     	);
     });
 
+    app.get('/fbProfile', isLoggedIn, function(req, res){
+    	console.log(req.user);
+    	res.status(200).json({user: req.user});
+    });
+
+    app.get('/facebooklogin/callback', passport.authenticate('facebook',
+    	{ successRedirect : '/fbProfile', failureRedirect: '/errorUserlogin' }));
+
+    app.get('/auth/facebook',
+  		passport.authenticate('facebook', { scope: ['email'] })
+	);
 }
 
 function isLoggedIn(req, res, next) {
