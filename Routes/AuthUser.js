@@ -23,6 +23,19 @@ module.exports = function(app, passport) {
             }else res.status(200).json({status: true, data: products});
         });    
     });
+    app.get('/allProducts', isLoggedIn, function(req, res, next) {
+        console.log(req.user);
+        Products.find({}).exec(function(err, products) {
+            if(err){
+                return res.status((err.statusCode != undefined) ? err.statusCode : 400).json({ status: false, error: err.message, });
+            }else res.status(200).json({status: true, data: products, user:req.user});
+        });    
+    });
+
+    app.get('/logoutUser', function(req, res, next) {
+        req.logout();
+        res.status(200).json({status : true, message: 'logged out Successfully'});
+    });
 
 	app.get('/errorUserlogin', function(req, res, next) {
 		req.logout();

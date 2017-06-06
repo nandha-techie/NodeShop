@@ -38,7 +38,7 @@ var mongoose = require('mongoose'),
 	});
 
 	UsersSchema.methods.generateHash=function(password) {
-		return bcrypt.hashSync(password,bcrypt.genSaltSync(8), null);
+		return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 	};
 
 	UsersSchema.methods.validPassword = function(password, dbpass) {

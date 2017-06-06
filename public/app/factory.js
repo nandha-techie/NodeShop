@@ -49,5 +49,11 @@ app.factory('UserService', function($http){
 		profile: function(){
 			return $http.get(window.location.origin + '/facebooklogin/callback');
 		},
+		allProducts: function(){
+			return $http.get(window.location.origin + '/allProducts');
+		},
+		logoutUser: function(){
+			return $http.get(window.location.origin + '/logoutUser');
+		},
 	};
 });

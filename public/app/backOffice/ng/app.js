@@ -62,7 +62,7 @@ app.controller('cpanelCtrl',function($scope, $state, $rootScope, Cpanel) {
 			});
 		};
 		$scope.currentPage = 1;
-		$scope.pageSize = 8;
+		$scope.pageSize = 5;
 		$scope.edit = function(id){
 			$state.go('editProduct', {id: id});
 		};

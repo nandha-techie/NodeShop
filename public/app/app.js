@@ -62,7 +62,7 @@ app.controller('LoginCtrl',function($scope, $state, $rootScope, UserService) {
 	$scope.login = function(input){
 		console.log(input);
 		UserService.userLogin(input).success(function(res, status){
-			//$state.go('userDashboard');
+			$state.go('userDashboard');
 		}).error(function(error, status){
 			//console.log(error.message);
 		});
@@ -77,19 +77,6 @@ app.controller('LoginCtrl',function($scope, $state, $rootScope, UserService) {
 });
 
 app.controller('UserHomeCtrl',function($scope, $state, $rootScope, UserService) {
-	// $scope.login = function(input){
-	// 	UserService.userLogin(input).success(function(status, res){
-	// 		$state.go('dashboard');
-	// 	});
-	// };
-	UserService.profile().success(function(res, status){
-			//$state.go('dashboard');
-			console.log(res);
-	});
-	console.log('ttttttttttttt');
-}); 
-
-app.controller('UserDashboardCtrl',function($scope, $state, $rootScope, UserService) {
 	$scope.login = function(input){
 		UserService.userLogin(input).success(function(status, res){
 			$state.go('dashboard');
@@ -99,7 +86,30 @@ app.controller('UserDashboardCtrl',function($scope, $state, $rootScope, UserServ
 			//$state.go('dashboard');
 			console.log(res);
 	});
-	console.log('ooooooooooooo');
+	console.log('ttttttttttttt');
+}); 
+
+app.controller('UserDashboardCtrl',function($scope, $state, $rootScope,Cpanel, UserService) {
+	$scope.getAll = function(){
+		UserService.allProducts().success(function(res, status){
+			console.log(res);
+			$scope.products = res.data;
+			$scope.user = res.user;
+		}).error(function(error, status){
+			$state.go('userlogin');
+		});
+		
+	};
+	$scope.logout = function(){
+		UserService.logoutUser().success(function(res, status){
+			$state.go('userlogin');
+		}).error(function(error, status){
+			$state.go('userlogin');
+		});
+	}
+	$scope.currentPage = 1;
+	$scope.pageSize = 8;
+	$scope.getAll();
 }); 
      	 
 

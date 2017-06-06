@@ -5,11 +5,11 @@
                 <li class="sidebar-brand"><a href="#">ADMIN PANEL</a></li>
                 <li><a href="#">Dashboard</a></li>
                 <li><a ui-sref="orderlist">Orders</a></li>
-                <li><a href="#">Overview</a></li>
-                <li><a href="#">Events</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="/#/cpanel/orders#" ng-click="logout()">Logout</a></li>
+                <li><a ui-sref="orderlist">Overview</a></li>
+                <li><a ui-sref="orderlist">Events</a></li>
+                <li><a ui-sref="orderlist">About</a></li>
+                <li><a ui-sref="orderlist">Services</a></li>
+                <li><a href="" ng-click="logout()">Logout</a></li>
             </ul>
         </div>
         <button class="btn btn-default" ng-click="toggle = !toggle" id="menu-toggle">Toggle</button>
@@ -24,7 +24,7 @@
                                 <option value="nature" selected>Nature</option>
                                 <option value="watches">Watches</option>
                             </select>
-                            <div ng-show="newProduct.category.$touched" ng-messages="newProduct.category.$error" class="error-text" role="alert">
+                            <div ng-if="!add.category" ng-messages="newProduct.category.$error" class="error-text" role="alert">
                                 <div ng-message="required" style="color: red">Category field required</div>
                             </div>
                           </div>
@@ -33,7 +33,7 @@
                             <label for="example-text-input" class="col-sm-2">Name</label>
                             <div class="col-sm-5">
                                 <input type="text" name="name" ng-model="add.name" required></input>
-                                <div ng-show="newProduct.name.$touched" ng-messages="newProduct.name.$error" class="error-text" role="alert">
+                                <div ng-if="!add.name" ng-messages="newProduct.name.$error" class="error-text" role="alert">
                                     <div ng-message="required" style="color: red">Name field required</div>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                             <label for="example-text-input" class="col-sm-2">Price</label>
                             <div class="col-sm-5">
                                 <input type="number" name="price" ng-model="add.price" required></input>
-                                <div ng-show="newProduct.price.$touched" ng-messages="newProduct.price.$error" class="error-text" role="alert">
+                                <div ng-if="!add.price" ng-messages="newProduct.price.$error" class="error-text" role="alert">
                                     <div ng-message="required" style="color: red">Price field required</div>
                                 </div>
                             </div>
