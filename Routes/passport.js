@@ -6,24 +6,21 @@ var Users = require('../Model/Users');
 
 module.exports = function(passport) {
 	passport.serializeUser(function(user, done) {
-		console.log(user);
-		done(null,user.id);
+		done(null, user);
 	});
 	
-	passport.deserializeUser(function(id, done) {
-		Admin.findById(id,function(err, user) {
-			done(err, user);
-		});
+	passport.deserializeUser(function(data, done) {
+		if(data.type == 'admin'){
+			Admin.findById(data.id,function(err, user) {
+				done(err, user);
+			});
+		}else{
+			Users.findById(data.id,function(err, user) {
+				done(err, user);
+			});
+		}	
     });
 	   
-		
-		
-   /*function validPassword(password,dbpass) {
-    console.log('input is '+password+' dbpass '+dbpass);
-    var result=bcrypt.compareSync(password,dbpass);
-    console.log('inside '+result);
-    return result;
-   }*/
 
 	passport.use('local-login', new LocalStrategy({
 			usernameField:'email',
@@ -42,7 +39,6 @@ module.exports = function(passport) {
              actual = dataExportt.validPassword(password, user.password);
             }
 	 		if(!actual){
-                //req.message = 'incorrect email id ';
 	 			return done(null, false);
             }else{
              	return done(null, user);
@@ -50,31 +46,29 @@ module.exports = function(passport) {
 	 	});
 	}));
 
-	// passport.use('local-userLogin', new LocalStrategy({
-	// 		usernameField:'email',
-	// 		passwordField:'password',
-	// 		passReqToCallback:true
-	//  },
-	//  function(req,email,password,done) {
-	//  	//console.log(email);
-	//  	Users.findOne({ email: email }, function(err, user) {
-	//  		if(err){
-	//  			return done(err);
- //                //throw err
- //            }
- //            var UsersObj = new Users();
- //            var actual ;
- //            if (user != null){
- //             actual = UsersObj.validPassword(password, user.password);
- //            }
-	//  		if(!actual){
-	//  			return done(null, false);
- //            }else{
- //            	//console.log(user);
- //             	return done(null, user);
- //            } 
-	//  	});
-	// }));
+	passport.use('local-userLogin', new LocalStrategy({
+			usernameField:'email',
+			passwordField:'password',
+			passReqToCallback:true
+	},
+	 function(req,email,password,done) {
+	 	Users.findOne({ email: email }, function(err, user) {
+	 		if(err){
+	 			return done(err);
+                //throw err
+            }
+            var UsersObj = new Users();
+            var actual ;
+            if (user != null){
+             actual = UsersObj.validPassword(password, user.password);
+            }
+	 		if(!actual){
+	 			return done(null, false);
+            }else{
+             	return done(null, user);
+            } 
+	 	});
+	}));
 
 	passport.use(new FacebookStrategy({
 		clientID: "1533309866767182",

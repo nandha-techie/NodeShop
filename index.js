@@ -22,7 +22,6 @@ var express	= require('express'),
 	require('./Model/dbConnection');
 	require('./Routes/passport')(passport);
 	require('./Routes/order')(app, passport);
-	//require('./Routes/passportUser')(passport);
 	require('./Routes/AuthUser')(app, passport);
 
 

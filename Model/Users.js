@@ -27,6 +27,10 @@ var mongoose = require('mongoose'),
 			type: Boolean,
 			default: true,
 		},
+		type:{
+			type:String,
+			default:'user'
+		},
 	}, {
 		collection: 'users', // table name
 		toObject: {

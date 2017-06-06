@@ -90,10 +90,11 @@ module.exports = function(app, passport) {
 	    			});
 	    		}else callback({ message: req.__("Product Not Found"), statusCode: 404, });
     		},	
+    		function(product, callback){ Products.find({status: true,}).exec(function(err, allProduct){ callback(err, product, allProduct);}); },
     	],
-			function(err, product){
+			function(err, product, allProduct){
 				if(err) return res.status((err.statusCode != undefined) ? err.statusCode : 400).json({ status: false, error: err.message, });
-				else return res.status(200).json({ status: true, data: product });
+				else return res.status(200).json({ status: true, data: product, products: allProduct });
 			}
     	);
     });
@@ -219,23 +220,22 @@ module.exports = function(app, passport) {
     
 
 
-
-/*	app.post('/cpanel/login', function(req, res) {
-		var data = {};
-		data.name = 'admin';
-		data.email = 'admin@shop.com';
-		data.password = 'admin123';
-		data.firstname = 'admin@shop.com';
-		data.lastname = 'admin@shop.com';
-		console.log(data);
-		Admin.create({name: data.name, email : data.email, password: data.password, firstname: data.firstname, lastname: data.lastname,}, function(err, admin){
-			if(err) return res.status((err.statusCode != undefined) ? err.statusCode : 400).json({ status: false, error: err.message, });
-			else return res.status(200).json({status: true, data : admin });
-		});
-		var pass = 'admin123',
-		data = bcrypt.hashSync(pass,bcrypt.genSaltSync(8), null);
-		return res.status(200).json({status: true, data : data });
-	});*/
+	// app.post('/admin', function(req, res) {
+	// 	var data = {};
+	// 	data.name = 'admin';
+	// 	data.email = 'admin@shop.com';
+	// 	data.password = '$2a$08$ytuFERAPBP2pG3fxZ/3r3OnPZhJkPEo9tpxSeqbRX9OjA.f85H8Ua';
+	// 	data.firstname = 'admin@shop.com';
+	// 	data.lastname = 'admin@shop.com';
+	// 	console.log(data);
+	// 	Admin.create({name: data.name, email : data.email, password: data.password, firstname: data.firstname, lastname: data.lastname,}, function(err, admin){
+	// 		if(err) return res.status((err.statusCode != undefined) ? err.statusCode : 400).json({ status: false, error: err.message, });
+	// 		else return res.status(200).json({status: true, data : admin });
+	// 	});
+	// 	var pass = 'admin123',
+	// 	data = bcrypt.hashSync(pass,bcrypt.genSaltSync(8), null);
+	// 	return res.status(200).json({status: true, data : data });
+	// });
 
 };
 	function isLoggedIn(req, res, next) {

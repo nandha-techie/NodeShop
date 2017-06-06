@@ -1,14 +1,12 @@
-<div class="modal-header">
-	<h3 class="modal-title" id="modal-title">Upload your product</h3>
-</div>
-<div class="modal-body" id="modal-body">
-	<input type="file" class="fileinput-filename" ngf-select="Edit.selectedFiles($file, $invalidFiles)"
-        accept="image/*" ngf-max-height="10000" ngf-max-size="5MB">
-    <!-- <div style="margin-top: 20px;">    
-    	<button class="btn btn-primary" ng-click="uploadFile()" ng-disabled="checkUpload">Upload</button>
-    </div> -->	
-</div>
-<div class="modal-footer">
-	<button class="btn btn-primary {{checkUpload}}" type="button" ng-click="Edit.uploadFile()">Ok</button>
-	<button class="btn btn-warning" type="button" ng-click="Edit.cancelModal()">Cancel</button>
-</div>
+<div ng-controller="OrderListCtrl as $ctrl" class="modal-demo">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Product</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        Are you sure want delete ?
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="$ctrl.ok(id)">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+    </div>
+</div>        

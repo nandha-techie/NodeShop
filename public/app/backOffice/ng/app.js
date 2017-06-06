@@ -49,7 +49,8 @@ app.controller('cpanelCtrl',function($scope, $state, $rootScope, Cpanel) {
 	};
 });
 
-	app.controller('OrderListCtrl', function($scope, $state, Cpanel, $uibModal){
+	app.controller('OrderListCtrl', function($scope, $rootScope, $state, Cpanel, $uibModal){
+		var $ctrl = this;
 		$scope.productList = function(add){
 			Cpanel.productList().success(function(res, status){
 				$scope.productList = res.data;
@@ -66,12 +67,36 @@ app.controller('cpanelCtrl',function($scope, $state, $rootScope, Cpanel) {
 		$scope.edit = function(id){
 			$state.go('editProduct', {id: id});
 		};
-		$scope.delete = function(index, id){
-			Cpanel.deleteProduct(id).success(function(res, status){
-				$scope.productList.splice(index, 1);
-				$state.go('orderlist');
-			});
+		//$scope.delete = function(index, id){
+		  $scope.delete = function (index, id) {
+			$ctrl.animationsEnabled = true;
+		    $rootScope.modalInstance = $uibModal.open({
+		      animation: $ctrl.animationsEnabled,
+		      ariaLabelledBy: 'modal-title',
+		      ariaDescribedBy: 'modal-body',
+		      templateUrl: 'backOffice/ng/orders/model.html',
+		      controller: 'OrderListCtrl',
+		      controllerAs: '$ctrl',
+		      size: 'sm',
+		      controller: function($scope) {
+        		$scope.id = id;
+      		}
+		});
 		}
+		$ctrl.ok = function (id) {
+			Cpanel.deleteProduct(id).success(function(res, status){
+				//$scope.productList = res.products;
+				// var index = 0;
+				// angular.forEach($scope.productList, function(val, key){
+				// 	if(id == val.id){ $scope.productList.splice(index, 1); }
+				// 	index = index + 1;
+				// });
+ 				$rootScope.modalInstance.close();
+			});
+    	};
+    	$ctrl.cancel = function(){
+    		$rootScope.modalInstance.close();
+    	}
 		$scope.logout = function(){
 			Cpanel.adminLogout().success(function(res, status){
 				$state.go('cpanel');

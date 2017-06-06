@@ -44,6 +44,10 @@ var mongoose = require('mongoose'),
 			type: Boolean,
 			default: true,
 		},
+		type:{
+			type:String,
+			default:'admin'
+		},
 	}, {
 		collection: 'admin', // table name
 		toObject: {
